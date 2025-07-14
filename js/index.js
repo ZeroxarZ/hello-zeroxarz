@@ -22,41 +22,58 @@
         }
 
         // Navigation entre les pages
+
         function showPage(pageId) {
             // Masquer toutes les pages
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => {
                 page.classList.remove('active');
             });
-            
-            // Afficher la page demandée avec animation
-            setTimeout(() => {
-                document.getElementById(pageId).classList.add('active');
-                
-                // Animer les éléments de la page
-                const elements = document.querySelectorAll(`#${pageId} .project-card, #${pageId} .skill-category, #${pageId} .service-card`);
-                elements.forEach((el, index) => {
-                    setTimeout(() => {
-                        el.classList.add('animate');
-                    }, index * 100);
-                });
-            }, 100);
-            
+            // Afficher la page demandée
+            const pageToShow = document.getElementById(pageId);
+            if (pageToShow) {
+                pageToShow.classList.add('active');
+            }
             // Mettre à jour la navigation active
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
                 link.classList.remove('active');
             });
-            
-            // Trouver et activer le lien correspondant
             const activeLink = document.querySelector(`[onclick="showPage('${pageId}')"]`);
             if (activeLink && activeLink.classList.contains('nav-link')) {
                 activeLink.classList.add('active');
             }
-            
+            // Animation des projets si on affiche la home
+            if (pageId === 'home') {
+                setTimeout(() => {
+                    document.querySelectorAll('#home .project-card').forEach((card, index) => {
+                        card.classList.remove('animate');
+                        setTimeout(() => {
+                            card.classList.add('animate');
+                        }, index * 200);
+                    });
+                }, 300);
+            }
             // Scroll vers le haut
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        function showPageFromHash() {
+            let hash = window.location.hash;
+            let pageId = '';
+            if (!hash || hash === '#' || hash === '') {
+                pageId = 'home';
+            } else {
+                pageId = hash.replace('#', '');
+            }
+            showPage(pageId);
+        }
+
+        // Affiche la bonne page au chargement
+        showPageFromHash();
+
+        // Gère le changement de hash (navigation via l'URL)
+        window.addEventListener('hashchange', showPageFromHash);
 
         // Effet de scroll sur la navbar
         window.addEventListener('scroll', () => {
@@ -136,16 +153,17 @@
                 observer.observe(el);
             });
 
-            // Animation initiale des cartes de projet (affichage immédiat si la page d'accueil est active)
+            // Forcer l'animation des projets si la page d'accueil est active ou affichée au chargement
             const homePage = document.getElementById('home');
-            if (homePage.classList.contains('active')) {
+            if (homePage.classList.contains('active') || window.location.hash === '' || window.location.hash === '#') {
                 setTimeout(() => {
                     document.querySelectorAll('#home .project-card').forEach((card, index) => {
+                        card.classList.remove('animate');
                         setTimeout(() => {
                             card.classList.add('animate');
                         }, index * 200);
                     });
-                }, 500);
+                }, 300);
             }
         });
 
