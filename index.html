@@ -1341,20 +1341,23 @@
         // Initialisation
         document.addEventListener('DOMContentLoaded', () => {
             createParticles();
-            
+
             // Observer tous les éléments animables
             document.querySelectorAll('.project-card, .skill-category, .service-card, .about-content').forEach(el => {
                 observer.observe(el);
             });
-            
-            // Animation initiale des cartes de projet
-            setTimeout(() => {
-                document.querySelectorAll('#home .project-card').forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('animate');
-                    }, index * 200);
-                });
-            }, 500);
+
+            // Animation initiale des cartes de projet (affichage immédiat si la page d'accueil est active)
+            const homePage = document.getElementById('home');
+            if (homePage.classList.contains('active')) {
+                setTimeout(() => {
+                    document.querySelectorAll('#home .project-card').forEach((card, index) => {
+                        setTimeout(() => {
+                            card.classList.add('animate');
+                        }, index * 200);
+                    });
+                }, 500);
+            }
         });
 
         // Effet de parallaxe léger
