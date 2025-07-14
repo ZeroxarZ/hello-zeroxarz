@@ -578,9 +578,10 @@
         }
 
         .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 350px;
             margin-top: 3rem;
         }
 
@@ -1176,41 +1177,8 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="contact-form">
-                    <div class="demo-notice">
-                        <i class="bi bi-info-circle"></i> <strong>Démo :</strong> Ce formulaire est une démonstration.
-                    </div>
-                    
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <label for="name"><i class="bi bi-person"></i> Nom</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="email"><i class="bi bi-envelope"></i> Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="subject"><i class="bi bi-chat-dots"></i> Sujet</label>
-                            <input type="text" id="subject" name="subject" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message"><i class="bi bi-textarea"></i> Message</label>
-                            <textarea id="message" name="message" required></textarea>
-                        </div>
-                        
-                        <button type="submit" class="submit-btn">
-                            <i class="bi bi-send"></i> Envoyer le message
-                        </button>
-                    </form>
-                </div>
             </div>
-        </section>
-    </div>
+        </div>       
 
     <footer>
         © 2025 ZeroxarZ — Portfolio réalisé avec ❤️ et beaucoup de <i class="bi bi-cup-hot"></i>
