@@ -50,6 +50,15 @@
             transition: all 0.3s ease;
         }
 
+        @media (max-width: 768px) {
+            nav {
+                position: static;
+                background: rgba(15, 15, 35, 0.98);
+                box-shadow: none;
+                padding: 0.7rem 0 0.2rem 0;
+            }
+        }
+
         nav.scrolled {
             background: rgba(15, 15, 35, 0.98);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
