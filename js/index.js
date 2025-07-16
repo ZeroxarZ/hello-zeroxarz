@@ -126,7 +126,8 @@ window.addEventListener('scroll', revealFadeIn);
 function animateStats() {
     const statNumbers = document.querySelectorAll('#about .stat-number');
     statNumbers.forEach(stat => {
-        const original = stat.textContent;
+        const original = stat.getAttribute('data-original') || stat.textContent;
+        stat.setAttribute('data-original', original);
         const target = parseInt(original);
         let current = 0;
         const increment = target / 50;
@@ -142,6 +143,14 @@ function animateStats() {
         }, 50);
     });
 }
+
+// Relance l'animation toutes les 15 secondes
+setInterval(() => {
+    if (document.getElementById('about').classList.contains('active')) {
+        animateStats();
+    }
+}, 15000);
+
 
         // Observer pour les animations au scroll
         const observerOptions = {
@@ -161,27 +170,6 @@ function animateStats() {
             });
         }, observerOptions);
 
-        // Gestion du formulaire de contact
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.querySelector('.submit-btn');
-            const originalHTML = submitBtn.innerHTML;
-            
-            submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Envoi en cours...';
-            submitBtn.style.background = 'linear-gradient(135deg, #f39c12, #e67e22)';
-            
-            setTimeout(() => {
-                submitBtn.innerHTML = '<i class="bi bi-check-circle"></i> Message envoyé !';
-                submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                
-                setTimeout(() => {
-                    submitBtn.innerHTML = originalHTML;
-                    submitBtn.style.background = 'linear-gradient(135deg, #64ffda, #3b82f6)';
-                    this.reset();
-                }, 3000);
-            }, 1500);
-        });
 
         // Initialisation
         document.addEventListener('DOMContentLoaded', () => {
