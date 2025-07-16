@@ -199,10 +199,16 @@ body.dark-theme .project-card a:hover {
         }
 
         .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+}
+.nav-theme-switch {
+    display: flex;
+    align-items: center;
+    margin-left: 0.5rem;
+}
 
         .nav-links a {
             color: #e2e8f0;
@@ -804,10 +810,17 @@ body.dark-theme .project-card a:hover {
         @media (max-width: 768px) {
             .nav-links {
                 gap: 0.5rem;
+                flex-direction: column;
+                align-items: center;
             }
             .nav-links a {
                 padding: 0.5rem 0.5rem;
                 font-size: 1rem;
+            }
+            .nav-theme-switch {
+                margin: 0.7rem 0 0.2rem 0;
+                width: 100%;
+                justify-content: center;
             }
             .hero h1 {
                 font-size: 2.1rem;
