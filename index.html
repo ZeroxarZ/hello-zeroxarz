@@ -4,7 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZeroxarZ - Développeur</title>
+    <title>ZeroxarZ | Portfolio Développeur Web, 3D & IoT</title>
+    <meta name="description" content="Portfolio de ZeroxarZ : développeur web, 3D, IoT, accessibilité, projets innovants et créatifs. Découvrez mes réalisations, compétences et services.">
+    <meta name="keywords" content="ZeroxarZ, développeur, web, 3D, IoT, portfolio, accessibilité, projets, GitHub, Three.js, Flask, ColorContrastLab, AstroWeb">
+    <meta name="author" content="ZeroxarZ">
+    <meta property="og:title" content="ZeroxarZ | Portfolio Développeur Web, 3D & IoT">
+    <meta property="og:description" content="Portfolio de ZeroxarZ : développeur web, 3D, IoT, accessibilité, projets innovants et créatifs.">
+    <meta property="og:image" content="https://zeroxarz.github.io/icons/logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zeroxarz.github.io/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ZeroxarZ | Portfolio Développeur Web, 3D & IoT">
+    <meta name="twitter:description" content="Portfolio de ZeroxarZ : développeur web, 3D, IoT, accessibilité, projets innovants et créatifs.">
+    <meta name="twitter:image" content="https://zeroxarz.github.io/icons/logo.png">
+    <link rel="icon" type="image/png" href="icons/favicon.png">
+    <link rel="apple-touch-icon" href="icons/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
 </head>
@@ -21,6 +35,9 @@
     <nav id="navbar">
         <div class="nav-container">
             <a href="#" class="logo" onclick="showPage('home')">ZeroxarZ</a>
+            <button id="theme-toggle" aria-label="Changer le thème" style="margin-right:1.5rem;background:none;border:none;cursor:pointer;font-size:1.7rem;color:#64ffda;transition:color 0.3s;">
+                <i class="bi bi-brightness-high" id="theme-icon"></i>
+            </button>
             <ul class="nav-links">
                 <li><a href="#" onclick="showPage('home')" class="nav-link active">Accueil</a></li>
                 <li><a href="#" onclick="showPage('skills')" class="nav-link">Compétences</a></li>
@@ -44,40 +61,46 @@
         </section>
 
         <section class="projects-section">
-            <h2 class="section-title">Mes Projets</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <h2><i class="bi bi-code-square"></i> hello-zeroxarz</h2>
+            <h2 class="section-title fade-in">Mes Projets</h2>
+            <div class="projects-grid fade-in">
+                <div class="project-card fade-in">
+                    <h2><i class="bi bi-code-square"></i> zeroxarz.github.io</h2>
                     <p>Un projet d'exemple pour présenter mon portfolio et mes compétences en développement web moderne.</p>
-                    <a href="https://github.com/ZeroxarZ/hello-zeroxarz" target="_blank">
+                    <a href="https://github.com/ZeroxarZ/zeroxarz.github.io" target="_blank">
                         <i class="bi bi-arrow-right"></i> Voir sur GitHub
+                    </a>
+                    <a href="index.html" class="astro-btn" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#64ffda;color:#0f0f23;border-radius:20px;text-decoration:none;font-weight:600;transition:background 0.2s;">
+                        <i class="bi bi-globe"></i> Accéder à zeroxarz.github.io
                     </a>
                 </div>
                 
-                <div class="project-card">
+                <div class="project-card fade-in">
                     <h2><i class="bi bi-thermometer-half"></i> DHT-Logger</h2>
                     <p>DHT-Logger surveille la température 🌡️ et l'humidité 💧 avec un capteur DHT22, stocke les données via Flask/SQLite et les affiche sur une interface web moderne avec graphiques interactifs.</p>
                     <a href="https://github.com/ZeroxarZ/dhtlogger" target="_blank">
-                        <i class="bi bi-arrow-right"></i> Voir sur GitHub (BIENTÔT DISPONIBLE EN PUBLIC)
+                        <i class="bi bi-arrow-right"></i> Voir sur GitHub (BIENTÔT)
                     </a>
                 </div>
                 
-                <div class="project-card">
+                <div class="project-card fade-in">
                     <h2><i class="bi bi-globe"></i> AstroWeb</h2>
                     <p>Application web interactive permettant d'explorer le système solaire en 3D grâce à Three.js avec visualisation des orbites, contrôle de vitesse et positions réelles selon la date.</p>
                     <a href="https://github.com/ZeroxarZ/AstroWeb" target="_blank">
                         <i class="bi bi-arrow-right"></i> Voir sur GitHub
                     </a>
                     <a href="astro.html" class="astro-btn" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#64ffda;color:#0f0f23;border-radius:20px;text-decoration:none;font-weight:600;transition:background 0.2s;">
-                        <i class="bi bi-globe"></i> Accéder à ASTRO DEMO (EN DEVELOPPEMENT)
+                        <i class="bi bi-globe"></i> Accéder à AstroWEB
                     </a>
                 </div>
                 
-                <div class="project-card">
+                <div class="project-card fade-in">
                     <h2><i class="bi bi-palette"></i> ColorContrastLab</h2>
                     <p>Simulateur d'accessibilité des couleurs pour tester des palettes et vérifier leur conformité WCAG avec simulation de déficiences visuelles et générateur de palettes accessibles.</p>
                     <a href="https://github.com/ZeroxarZ/ColorContrastLab" target="_blank">
                         <i class="bi bi-arrow-right"></i> Voir sur GitHub
+                    </a>
+                    <a href="contrastlab.html" class="astro-btn" style="display:inline-block;margin-top:8px;padding:6px 16px;background:#64ffda;color:#0f0f23;border-radius:20px;text-decoration:none;font-weight:600;transition:background 0.2s;">
+                        <i class="bi bi-globe"></i> Accéder à ColorContrastLab
                     </a>
                 </div>
             </div>
@@ -288,6 +311,7 @@
             <h2 class="section-title">Contactez-moi</h2>
             <div class="contact-grid">
                 <div class="contact-info">
+                    <img src="icons/logo.png" alt="Bannière ZeroxarZ" style="width:100%;max-width:420px;height:auto;display:block;margin:0 auto 2rem auto;border-radius:18px;box-shadow:0 4px 24px #64ffda33;object-fit:cover;">
                     <h3 style="color: #64ffda; margin-bottom: 1.5rem;">Informations de Contact</h3>
                     
                     <div class="contact-item">

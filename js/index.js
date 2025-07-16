@@ -1,3 +1,40 @@
+// Switch mode sombre/clair
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
+function setTheme(mode) {
+    if (mode === 'light') {
+        document.body.classList.remove('dark-theme');
+        themeIcon.classList.remove('bi-moon');
+        themeIcon.classList.add('bi-brightness-high');
+    } else {
+        document.body.classList.add('dark-theme');
+        themeIcon.classList.remove('bi-brightness-high');
+        themeIcon.classList.add('bi-moon');
+    }
+    localStorage.setItem('theme', mode);
+}
+themeToggle.addEventListener('click', () => {
+    const isDark = document.body.classList.contains('dark-theme');
+    setTheme(isDark ? 'light' : 'dark');
+});
+// Initialisation du thème au chargement
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    setTheme(savedTheme === 'dark' ? 'dark' : 'light');
+});
+// Animation fade-in sur les éléments avec la classe .fade-in
+function revealFadeIn() {
+    const elements = document.querySelectorAll('.fade-in');
+    elements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 40) {
+            el.classList.add('visible');
+        }
+    });
+}
+
+window.addEventListener('DOMContentLoaded', revealFadeIn);
+window.addEventListener('scroll', revealFadeIn);
         // Animation de chargement
         window.addEventListener('load', () => {
             setTimeout(() => {
