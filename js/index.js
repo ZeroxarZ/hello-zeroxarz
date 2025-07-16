@@ -123,22 +123,25 @@ window.addEventListener('scroll', revealFadeIn);
         });
 
         // Animation des statistiques
-        function animateStats() {
-            const statNumbers = document.querySelectorAll('.stat-number');
-            statNumbers.forEach(stat => {
-                const target = parseInt(stat.textContent);
-                let current = 0;
-                const increment = target / 50;
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        current = target;
-                        clearInterval(timer);
-                    }
-                    stat.textContent = Math.floor(current) + (stat.textContent.includes('+') ? '+' : '') + (stat.textContent.includes('%') ? '%' : '');
-                }, 50);
-            });
-        }
+function animateStats() {
+    const statNumbers = document.querySelectorAll('#about .stat-number');
+    statNumbers.forEach(stat => {
+        const original = stat.textContent;
+        const target = parseInt(original);
+        let current = 0;
+        const increment = target / 50;
+        stat.textContent = '0' + (original.includes('+') ? '+' : '') + (original.includes('%') ? '%' : '');
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                stat.textContent = original;
+                clearInterval(timer);
+            } else {
+                stat.textContent = Math.floor(current) + (original.includes('+') ? '+' : '') + (original.includes('%') ? '%' : '');
+            }
+        }, 50);
+    });
+}
 
         // Observer pour les animations au scroll
         const observerOptions = {
@@ -150,9 +153,8 @@ window.addEventListener('scroll', revealFadeIn);
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animate');
-                    
-                    // Animer les stats si c'est la section about
-                    if (entry.target.closest('#about')) {
+                    // Animer les stats si c'est la section about-content
+                    if (entry.target.classList.contains('about-content')) {
                         animateStats();
                     }
                 }
