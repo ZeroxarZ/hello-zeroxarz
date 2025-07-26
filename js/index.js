@@ -203,3 +203,4 @@ setInterval(() => {
                 parallax.style.transform = `translateY(${speed}px)`;
             }
         });
+
