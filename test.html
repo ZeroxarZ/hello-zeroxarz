@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur de Prix - Studio Photo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#8b5cf6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-indigo-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-full mb-4">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Studio Photo</h1>
+            <p class="text-gray-600 text-lg">Calculateur de Prix Personnalisé</p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Services Panel -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="w-2 h-8 bg-gradient-to-b from-primary to-secondary rounded-full mr-3"></span>
+                    Nos Services
+                </h2>
+
+                <!-- Séances Photo -->
+                <div class="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Séances Photo
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Durée (heures)</label>
+                            <input type="range" id="sessionHours" min="1" max="8" value="2" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                <span>1h</span>
+                                <span id="sessionHoursDisplay" class="font-semibold text-primary">2h</span>
+                                <span>8h</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tarif horaire</label>
+                            <input type="range" id="hourlyRate" min="150" max="250" value="200" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                <span>150€</span>
+                                <span id="hourlyRateDisplay" class="font-semibold text-primary">200€/h</span>
+                                <span>250€</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Édition -->
+                <div class="mb-8 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-100">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 text-secondary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                        Édition d'Images
+                    </h3>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Nombre d'images</label>
+                        <input type="range" id="imageCount" min="0" max="50" value="10" 
+                               class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider">
+                        <div class="flex justify-between text-sm text-gray-500 mt-1">
+                            <span>0</span>
+                            <span id="imageCountDisplay" class="font-semibold text-secondary">10 images</span>
+                            <span>50</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">50€ par image éditée</p>
+                    </div>
+                </div>
+
+                <!-- Albums -->
+                <div class="p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-100">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 text-emerald-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        Albums Photo
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nombre d'albums</label>
+                            <input type="range" id="albumCount" min="0" max="5" value="1" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                <span>0</span>
+                                <span id="albumCountDisplay" class="font-semibold text-emerald-600">1 album</span>
+                                <span>5</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Prix par album</label>
+                            <input type="range" id="albumPrice" min="100" max="300" value="200" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                <span>100€</span>
+                                <span id="albumPriceDisplay" class="font-semibold text-emerald-600">200€</span>
+                                <span>300€</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Panel -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 sticky top-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="w-2 h-8 bg-gradient-to-b from-emerald-500 to-teal-500 rounded-full mr-3"></span>
+                    Devis Personnalisé
+                </h2>
+
+                <div class="space-y-6">
+                    <!-- Session Cost -->
+                    <div class="flex justify-between items-center p-4 bg-blue-50 rounded-lg border border-blue-100">
+                        <div>
+                            <p class="font-medium text-gray-800">Séance Photo</p>
+                            <p class="text-sm text-gray-600" id="sessionDetails">2h × 200€/h</p>
+                        </div>
+                        <p class="text-xl font-bold text-primary" id="sessionCost">400€</p>
+                    </div>
+
+                    <!-- Editing Cost -->
+                    <div class="flex justify-between items-center p-4 bg-purple-50 rounded-lg border border-purple-100">
+                        <div>
+                            <p class="font-medium text-gray-800">Édition</p>
+                            <p class="text-sm text-gray-600" id="editingDetails">10 images × 50€</p>
+                        </div>
+                        <p class="text-xl font-bold text-secondary" id="editingCost">500€</p>
+                    </div>
+
+                    <!-- Album Cost -->
+                    <div class="flex justify-between items-center p-4 bg-green-50 rounded-lg border border-green-100">
+                        <div>
+                            <p class="font-medium text-gray-800">Albums</p>
+                            <p class="text-sm text-gray-600" id="albumDetails">1 album × 200€</p>
+                        </div>
+                        <p class="text-xl font-bold text-emerald-600" id="albumCost">200€</p>
+                    </div>
+
+                    <hr class="border-gray-200">
+
+                    <!-- Total -->
+                    <div class="flex justify-between items-center p-6 bg-gradient-to-r from-primary to-secondary rounded-xl text-white">
+                        <div>
+                            <p class="text-lg font-medium">Total</p>
+                            <p class="text-sm opacity-90">Taxes non incluses</p>
+                        </div>
+                        <p class="text-3xl font-bold" id="totalCost">1100€</p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="space-y-3 pt-4">
+                        <button onclick="generateQuote()" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
+                            Générer le Devis
+                        </button>
+                        <button onclick="resetCalculator()" class="w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                            Réinitialiser
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quote Modal -->
+        <div id="quoteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 transform scale-95 opacity-0 transition-all duration-300" id="quoteContent">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Devis Généré!</h3>
+                    <p class="text-gray-600">Votre devis personnalisé est prêt</p>
+                </div>
+                
+                <div class="bg-gray-50 rounded-xl p-4 mb-6">
+                    <p class="text-center text-2xl font-bold text-primary" id="modalTotal">1100€</p>
+                    <p class="text-center text-sm text-gray-600 mt-1">Prix estimé pour vos services</p>
+                </div>
+
+                <div class="space-y-3">
+                    <button onclick="downloadQuote()" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transition-all duration-200">
+                        Télécharger le Devis
+                    </button>
+                    <button onclick="closeModal()" class="w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                        Fermer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .slider::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+    </style>
+
+    <script>
+        // Initialize calculator
+        function updateCalculator() {
+            const sessionHours = document.getElementById('sessionHours').value;
+            const hourlyRate = document.getElementById('hourlyRate').value;
+            const imageCount = document.getElementById('imageCount').value;
+            const albumCount = document.getElementById('albumCount').value;
+            const albumPrice = document.getElementById('albumPrice').value;
+
+            // Update displays
+            document.getElementById('sessionHoursDisplay').textContent = sessionHours + 'h';
+            document.getElementById('hourlyRateDisplay').textContent = hourlyRate + '€/h';
+            document.getElementById('imageCountDisplay').textContent = imageCount + ' images';
+            document.getElementById('albumCountDisplay').textContent = albumCount + ' album' + (albumCount > 1 ? 's' : '');
+            document.getElementById('albumPriceDisplay').textContent = albumPrice + '€';
+
+            // Calculate costs
+            const sessionCost = sessionHours * hourlyRate;
+            const editingCost = imageCount * 50;
+            const totalAlbumCost = albumCount * albumPrice;
+            const totalCost = sessionCost + editingCost + totalAlbumCost;
+
+            // Update cost displays
+            document.getElementById('sessionDetails').textContent = `${sessionHours}h × ${hourlyRate}€/h`;
+            document.getElementById('sessionCost').textContent = sessionCost + '€';
+            
+            document.getElementById('editingDetails').textContent = `${imageCount} images × 50€`;
+            document.getElementById('editingCost').textContent = editingCost + '€';
+            
+            document.getElementById('albumDetails').textContent = `${albumCount} album${albumCount > 1 ? 's' : ''} × ${albumPrice}€`;
+            document.getElementById('albumCost').textContent = totalAlbumCost + '€';
+            
+            document.getElementById('totalCost').textContent = totalCost + '€';
+            document.getElementById('modalTotal').textContent = totalCost + '€';
+        }
+
+        function generateQuote() {
+            const modal = document.getElementById('quoteModal');
+            const content = document.getElementById('quoteContent');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('quoteModal');
+            const content = document.getElementById('quoteContent');
+            
+            content.classList.add('scale-95', 'opacity-0');
+            content.classList.remove('scale-100', 'opacity-100');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function downloadQuote() {
+            const sessionHours = document.getElementById('sessionHours').value;
+            const hourlyRate = document.getElementById('hourlyRate').value;
+            const imageCount = document.getElementById('imageCount').value;
+            const albumCount = document.getElementById('albumCount').value;
+            const albumPrice = document.getElementById('albumPrice').value;
+            
+            const sessionCost = sessionHours * hourlyRate;
+            const editingCost = imageCount * 50;
+            const totalAlbumCost = albumCount * albumPrice;
+            const totalCost = sessionCost + editingCost + totalAlbumCost;
+
+            const date = new Date().toLocaleDateString('fr-FR');
+            const devis = [
+                'DEVIS - STUDIO PHOTO',
+                '',
+                `Séance Photo : ${sessionHours}h × ${hourlyRate}€/h = ${sessionCost}€`,
+                `Édition : ${imageCount} images × 50€ = ${editingCost}€`,
+                `Albums : ${albumCount} album(s) × ${albumPrice}€ = ${totalAlbumCost}€`,
+                '',
+                `TOTAL : ${totalCost}€`,
+                '(Taxes non incluses)',
+                '',
+                `Généré le ${date}`
+            ].join('\n');
+
+            // Génération PDF avec jsPDF (présentation professionnelle)
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            // En-tête
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(20);
+            doc.text('DEVIS', 105, 18, { align: 'center' });
+            doc.setFontSize(13);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Studio Photo', 15, 30);
+            doc.setFontSize(10);
+            doc.text('contact@demo.fr', 15, 36);
+            doc.text('www.demo.fr', 15, 41);
+            doc.text('Date : ' + date, 160, 30);
+            doc.setLineWidth(0.5);
+            doc.line(15, 44, 195, 44);
+
+            // Tableau des prestations
+            doc.setFontSize(12);
+            let y = 52;
+            doc.setFont('helvetica', 'bold');
+            doc.text('Description', 18, y);
+            doc.text('Qté', 90, y);
+            doc.text('PU', 120, y);
+            doc.text('Total', 160, y);
+            doc.setFont('helvetica', 'normal');
+            y += 6;
+            doc.line(15, y, 195, y);
+            y += 8;
+            // Séance Photo
+            doc.text('Séance Photo', 18, y);
+            doc.text(`${sessionHours}h`, 92, y, { align: 'right' });
+            doc.text(`${hourlyRate} €`, 122, y, { align: 'right' });
+            doc.text(`${sessionCost} €`, 162, y, { align: 'right' });
+            y += 8;
+            // Édition
+            doc.text('Édition d\'images', 18, y);
+            doc.text(`${imageCount}`, 92, y, { align: 'right' });
+            doc.text(`50 €`, 122, y, { align: 'right' });
+            doc.text(`${editingCost} €`, 162, y, { align: 'right' });
+            y += 8;
+            // Albums
+            doc.text('Album photo', 18, y);
+            doc.text(`${albumCount}`, 92, y, { align: 'right' });
+            doc.text(`${albumPrice} €`, 122, y, { align: 'right' });
+            doc.text(`${totalAlbumCost} €`, 162, y, { align: 'right' });
+            y += 10;
+            doc.setLineWidth(0.2);
+            doc.line(15, y, 195, y);
+            y += 10;
+            // Total
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(14);
+            doc.text('TOTAL', 120, y);
+            doc.text(`${totalCost} €`, 162, y, { align: 'right' });
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(11);
+            y += 10;
+            doc.text('Taxes non incluses.', 15, y);
+            y += 8;
+            doc.setFontSize(10);
+            doc.text('Ce devis est valable 30 jours à compter de sa date d\'émission.', 15, y);
+            y += 8;
+            doc.text('Merci pour votre confiance !', 15, y);
+            y += 16;
+            doc.setFont('helvetica', 'italic');
+            doc.text('Signature :', 15, y);
+            doc.setFont('helvetica', 'normal');
+            doc.save('devis-studio-photo.pdf');
+        }
+
+        function resetCalculator() {
+            document.getElementById('sessionHours').value = 2;
+            document.getElementById('hourlyRate').value = 200;
+            document.getElementById('imageCount').value = 10;
+            document.getElementById('albumCount').value = 1;
+            document.getElementById('albumPrice').value = 200;
+            updateCalculator();
+        }
+
+        // Add event listeners
+        document.getElementById('sessionHours').addEventListener('input', updateCalculator);
+        document.getElementById('hourlyRate').addEventListener('input', updateCalculator);
+        document.getElementById('imageCount').addEventListener('input', updateCalculator);
+        document.getElementById('albumCount').addEventListener('input', updateCalculator);
+        document.getElementById('albumPrice').addEventListener('input', updateCalculator);
+
+        // Close modal when clicking outside
+        document.getElementById('quoteModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initialize on load
+        updateCalculator();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96538a621440989f',t:'MTc1MzUyOTE3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
